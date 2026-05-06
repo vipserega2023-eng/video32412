@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAX Interface</title>
+    <style>
+        /* Основные стили и фон */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #2e1065 0%, #4c1d95 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            transition: all 0.5s ease;
+        }
+
+        /* Заголовок MAX */
+        h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: 10px;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .sub-text {
+            font-size: 1.1rem;
+            margin-top: 20px;
+            opacity: 0.9;
+        }
+
+        /* Поля ввода */
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            color: white;
+            font-size: 1.2rem;
+            width: 80%;
+            margin-top: 15px;
+            outline: none;
+            text-align: center;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            border-color: #a78bfa;
+        }
+
+        /* Прямоугольник-видео */
+        .video-placeholder {
+            width: 90%;
+            height: 180px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 60px auto 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .play-button {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            clip-path: polygon(35% 25%, 35% 75%, 75% 50%);
+        }
+
+        /* Сетка для кода (6 клеток) */
+        .code-inputs {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .code-inputs input {
+            width: 45px;
+            height: 55px;
+            font-size: 1.5rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Скрытие элементов */
+        .hidden {
+            display: none;
+        }
+
+        .btn-next {
+            margin-top: 20px;
+            background: #a78bfa;
+            color: #2e1065;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ПЕРВЫЙ ЭКРАН -->
+    <div id="screen1" class="container">
+        <h1>MAX</h1>
+        <p class="sub-text">Введите номер телефона</p>
+        <input type="tel" id="phone" placeholder="+7 (___) ___-__-__">
+        <br>
+        <button class="btn-next" onclick="goToCode()">Далее</button>
+        
+        <div class="video-placeholder">
+            <div class="play-button"></div>
+        </div>
+    </div>
+
+    <!-- ВТОРОЙ ЭКРАН (Код) -->
+    <div id="screen2" class="container hidden">
+        <h1>MAX</h1>
+        <p class="sub-text">Введите код из СМС</p>
+        <div class="code-inputs">
+            <input type="text" maxlength="1">
+            <input type="text" maxlength="1">
+            <input type="text" maxlength="1">
+            <input type="text" maxlength="1">
+            <input type="text" maxlength="1">
+            <input type="text" maxlength="1">
+        </div>
+        <button class="btn-next" onclick="location.reload()">Назад</button>
+    </div>
+
+    <script>
+        function goToCode() {
+            document.getElementById('screen1').classList.add('hidden');
+            document.getElementById('screen2').classList.remove('hidden');
+        }
+
+        // Автофокус на следующую клетку кода
+        const inputs = document.querySelectorAll('.code-inputs input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                if (input.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
